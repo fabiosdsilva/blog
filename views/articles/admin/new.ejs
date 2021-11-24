@@ -1,0 +1,35 @@
+<!-- head -->
+<%- include ('../../partials/head') %>
+<body>
+    <!-- navbar -->
+    <%- include ('../../partials/navbar') %>
+        <div class="container">
+            <h1 class="display-5 text-center">Adicionar um artigo</h1>
+            <div class="card" style="margin-top: 5vh;">
+                <div class="card-header">
+                    <h2>Novo artigo</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="/admin/articles/save">
+                        <input type="text" name="nome_artigo" class="form-control" placeholder="Digite o título do artigo" style="margin-bottom: 1vh;">
+                        <textarea class="form-control" name="text_artigo" id="text_artigo" cols="30" rows="6" style="margin-bottom: 3vh;"></textarea><br>
+                        <label for="" >Selecione uma categoria</label>
+                        <select name="category" class="form-control" style="margin-bottom: 3vh;">
+                            <% categories.forEach(categories => { %>
+                                <option value="<%- categories.id %>"><%- categories.title %></option>
+                            <% }) %>
+                        </select>
+                        <button class="btn btn-success">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+<!-- footer -->
+<%- include ('../../partials/footer') %>
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: "#text_artigo"
+    })
+</script>

@@ -1,0 +1,29 @@
+<%- include ('../../partials/head') %>
+<body>
+    <%- include ('../../partials/navbar') %>
+    <div class="container">
+        <h1 class="display-4">Editando artigo: <b> <%= articles.title %> </b></h1>
+        <div class="card" style="margin-top: 5vh;">
+            <div class="card-body" style="margin-bottom: 2vh;">
+                <h1>Editar título</h1>
+                <div class="card-footer">
+                    <form action="/admin/articles/edit/update" method="POST">
+                        <input type="text" name="title_artigo" class="form-control" value="<%= articles.title %>" style="margin-bottom: 2vh;">
+                        <input type="hidden" name="idArticle" value="<%= articles.id %>">
+                        <textarea name="body_artigo" id="body_artigo" cols="500" rows="30"> <%= articles.body %> </textarea>
+                        <button class="btn btn-primary">Atualizar</button>
+                    </form> 
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: "#body_artigo"
+    })
+</script>
+</body>
+<%- include ('../../partials/footer') %>

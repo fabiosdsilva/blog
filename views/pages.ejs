@@ -1,0 +1,19 @@
+<%- include ('partials/head') %>
+<body>
+    <%- include ('partials/navbarHome') %>
+        <div class="container">
+            <% result.articles.rows.forEach(articles =>{ %>
+                <div class="card" style="margin-bottom: 1vh;">
+                    <div class="card-header">
+                        <%= articles.title %>
+                    </div>
+                    <div class="card-body">
+                        <a href="/<%= articles.slug %>" class="btn btn-primary">Ler artigo</a>
+                    </div>
+                </div>
+            <% }) %>
+            
+            <%- include ('partials/navPage') %>
+        </div>
+</body>
+<%- include ('partials/footer') %>
