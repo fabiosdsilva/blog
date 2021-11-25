@@ -4,6 +4,7 @@ const categoriesController = require('./controllers/Categories/categoriesControl
 const articlesController = require('./controllers/Articles/articlesController')
 const homeController = require('./controllers/home/homeController')
 const loginController = require('./controllers/login/loginController')
+const registerController = require('./controllers/register/registerController')
 
 // DATABASE
 const connection = require('./database/config')
@@ -31,6 +32,8 @@ app.use('/', articlesController)
 app.use('/', homeController)
 
 app.use('/', loginController)
+
+app.use('/', registerController)
 
 
 
