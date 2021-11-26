@@ -4,21 +4,25 @@ const slugify = require('slugify')
 const Category = require('../Categories/Category')
 const Articles = require('./Article')
 
-router.get('/articles', (req, res) => {
+const session = require('express-session')
+
+const adminAuth = require('../../middlewares/adminAuth')
+
+router.get('/articles', adminAuth, (req, res, next) => {
     Articles.findAll( {include: [{model: Category}]} ).then(listArticles =>{
         res.render('articles/index', {listArticles: listArticles})
     })
     
 })
 
-router.get('/admin/articles/new', (req, res) => {
+router.get('/admin/articles/new', adminAuth, (req, res) => {
     Category.findAll().then(categories => {
         res.render('articles/admin/new', {categories: categories})
     })
     
 })
 
-router.post('/admin/articles/save', (req, res) => {
+router.post('/admin/articles/save', adminAuth, (req, res) => {
     var title = req.body.nome_artigo
     var body = req.body.text_artigo
     var categoryId = req.body.category
@@ -33,9 +37,9 @@ router.post('/admin/articles/save', (req, res) => {
 })
 
 //DELETING ARTICLES
-router.post('/admin/articles/delete', (req, res) =>{
+router.post('/admin/articles/delete', adminAuth, (req, res) =>{
     var id = req.body.id
-    Article.destroy({
+    Articles.destroy({
         where: {
             id: id
         }
@@ -44,7 +48,7 @@ router.post('/admin/articles/delete', (req, res) =>{
     })
 })
 
-router.get('/admin/articles/edit/:id', (req, res) =>{
+router.get('/admin/articles/edit/:id', adminAuth, (req, res) =>{
     var id = req.params.id
     Articles.findOne({
         where: {
@@ -58,7 +62,7 @@ router.get('/admin/articles/edit/:id', (req, res) =>{
 })
 
 //RECEBENDO EDIÇÃO NO BANCO DE DADOS
-router.post('/admin/articles/edit/update', (req, res) =>{
+router.post('/admin/articles/edit/update', adminAuth, (req, res) =>{
     var id = req.body.idArticle
     var title = req.body.title_artigo
     var body = req.body.body_artigo
@@ -77,7 +81,7 @@ router.post('/admin/articles/edit/update', (req, res) =>{
 })
 
 //PAGINAÇÃO
-router.get('/articles/page/:num', (req, res) =>{
+router.get('/articles/page/:num', adminAuth, (req, res) =>{
     var page = req.params.num
     var offset;
     if(isNaN(page) || page == 1){

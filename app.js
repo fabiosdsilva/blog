@@ -6,6 +6,9 @@ const homeController = require('./controllers/home/homeController')
 const loginController = require('./controllers/login/loginController')
 const registerController = require('./controllers/register/registerController')
 
+const session = require('express-session')
+
+
 // DATABASE
 const connection = require('./database/config')
 connection.authenticate().then(()=> {
@@ -23,6 +26,9 @@ app.use(express.static('public'))
 
 //VIEW ENGINE
 app.set('view engine', 'ejs')
+
+//CONFIGURANDO UMA SESSÃO
+app.use(session({secret: "qualquercoisa", cookie: {maxAge: 30000000000000}}))
 
 //CREATING ROUTE
 app.use('/', categoriesController)

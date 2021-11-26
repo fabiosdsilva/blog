@@ -3,9 +3,11 @@ const router = express.Router()
 const slugify = require('slugify')
 const Category = require('./Category')
 
+const adminAuth = require ('../../middlewares/adminAuth')
+
 
 //LISTAR CATEGORIAS
-router.get('/categories', (req, res) => {
+router.get('/categories', adminAuth, (req, res) => {
     Category.findAll({raw: true}).then(listcat =>{
         res.render('categories/index', {
             listacategorias: listcat
@@ -14,11 +16,11 @@ router.get('/categories', (req, res) => {
     
 })
 
-router.get('/admin/categories', (req, res) => {
+router.get('/admin/categories', adminAuth, (req, res) => {
     res.render('categories/admin/admin')
 })
 
-router.post('/admin/categories/cadastrar', (req, res) =>{
+router.post('/admin/categories/cadastrar', adminAuth, (req, res) =>{
     var nome_categoria = req.body.nome_categoria
     if(nome_categoria === ""){
         res.redirect('/admin/categories')
@@ -35,7 +37,7 @@ router.post('/admin/categories/cadastrar', (req, res) =>{
 })
 
 //DELETING CATEGORY
-router.post('/categories/delete', (req, res) =>{
+router.post('/categories/delete', adminAuth, (req, res) =>{
     var id = req.body.id
     Category.destroy({
         where: {
@@ -47,7 +49,7 @@ router.post('/categories/delete', (req, res) =>{
 })
 
 //EDITION CATEGORY
-router.get('/admin/categories/edit/:id', (req, res) => {
+router.get('/admin/categories/edit/:id', adminAuth, (req, res) => {
     var id = req.params.id
     Category.findByPk(id).then(category =>{
         if(category != undefined){
@@ -60,7 +62,7 @@ router.get('/admin/categories/edit/:id', (req, res) => {
     })
 })
 
-router.post('/admin/categories/update', (req, res) => {
+router.post('/admin/categories/update', adminAuth, (req, res) => {
     var id = req.body.id
     var title = req.body.title
     Category.update({title: title, slug: slugify(title, {lower: true})}, {
